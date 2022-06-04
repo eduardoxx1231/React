@@ -1,0 +1,14 @@
+{
+  "js/ts.implicitProjectConfig.experimentalDecorators": true,
+  "files.eol": "\n",
+  "eslint.lintTask.enable": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "terminal.integrated.env.osx": {},
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[sass]": {
+    "editor.defaultFormatter": "syler.sass-indented"
+  }
+}
