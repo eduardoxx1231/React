@@ -3,14 +3,21 @@ import { ListGroup } from 'react-bootstrap';
 import { IWord } from '../../../models/IWord';
 import VocabularyItem from './VocabularyItem';
 
-export default function VocabularyList({ wordsList, onChangeActive}: 
-        {wordsList: IWord[]; onChangeActive: (id: IWord['id'], active: boolean) => void} ) {
-    const buildList = wordsList.map(( wordItem )=>{
-        return <VocabularyItem key={wordItem.word} wordItem={wordItem} onChangeActive={onChangeActive}/>
-    }); 
+export default function VocabularyList({
+  wordsList,
+  onChangeActive,
+}: {
+  wordsList: IWord[];
+  onChangeActive: (id: IWord['id'], active: boolean) => void;
+}) {
+  const buildList = wordsList.map((wordItem) => {
     return (
-        <ListGroup>
-            {buildList}
-        </ListGroup>
+      <VocabularyItem
+        key={wordItem.word}
+        wordItem={wordItem}
+        onChangeActive={onChangeActive}
+      />
     );
+  });
+  return <ListGroup>{buildList}</ListGroup>;
 }

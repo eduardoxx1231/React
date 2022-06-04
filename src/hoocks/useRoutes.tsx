@@ -13,22 +13,46 @@ import RequireAuth from '../components/Auth/RequireAuth';
 import NotFoundSection from '../sections/NotFoundSection';
 
 export default function useRoutes() {
-    return(
-        <Routes>
-            <Route element={<Layout />}>
-                <Route path='/' element={<MainSection />}/>
-                <Route path='login' element={<LoginSection />} />
-                <Route path='scud'
-                    element={<RequireAuth><ScudSection /></RequireAuth>} />
-                <Route path='cabinet'
-                    element={<RequireAuth><CabinetSection /></RequireAuth>} />
-                <Route path='vocabulary'
-                    element={<RequireAuth><VocabularySection /></RequireAuth>} />
-                <Route path='settings' 
-                    element={<RequireAuth><SettingsSection /></RequireAuth>} />
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<MainSection />} />
+        <Route path="login" element={<LoginSection />} />
+        <Route
+          path="scud"
+          element={
+            <RequireAuth>
+              <ScudSection />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="cabinet"
+          element={
+            <RequireAuth>
+              <CabinetSection />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="vocabulary"
+          element={
+            <RequireAuth>
+              <VocabularySection />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="settings"
+          element={
+            <RequireAuth>
+              <SettingsSection />
+            </RequireAuth>
+          }
+        />
 
-                <Route path='*' element={<NotFoundSection />} />
-            </Route>
-        </Routes>
-    )   
+        <Route path="*" element={<NotFoundSection />} />
+      </Route>
+    </Routes>
+  );
 }

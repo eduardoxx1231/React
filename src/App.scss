@@ -1,14 +1,19 @@
 // @import "bootstrap/scss/variables";
-@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/bootstrap';
 $input-bg: transparent;
-body, html {
+body,
+html {
   height: 100%;
 }
 #root {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  background: radial-gradient(farthest-side ellipse at 10% 0,#333867 20%,#17193b);
+  background: radial-gradient(
+    farthest-side ellipse at 10% 0,
+    #333867 20%,
+    #17193b
+  );
 }
 
 .App {
@@ -28,10 +33,9 @@ body, html {
 .form-check-input {
   cursor: pointer;
 }
-.form-check-input:not(:checked){
-  background-color: #56607c !important;;
+.form-check-input:not(:checked) {
+  background-color: #56607c !important;
 }
-
 
 .word-item {
   color: aliceblue !important;
@@ -42,11 +46,11 @@ body, html {
   background-color: #fafafa25 !important;
 }
 
-.word-item.disable{
+.word-item.disable {
   color: rgb(157, 162, 167) !important;
 }
 
-.word-item.disable:hover{
+.word-item.disable:hover {
   background-color: #fafafa09 !important;
 }
 

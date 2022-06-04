@@ -1,8 +1,7 @@
 import React from 'react';
 
 const VoiceWidget = ({ children }: { children: JSX.Element }) => {
-  
-    return children;
-}
+  return children;
+};
 
 export default VoiceWidget;

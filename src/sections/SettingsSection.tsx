@@ -1,7 +1,5 @@
 import React from 'react';
 
 export default function SettingsSection() {
-    return (
-        <div>SettingsSection</div>
-    );
+  return <div>SettingsSection</div>;
 }

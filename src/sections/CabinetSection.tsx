@@ -1,7 +1,5 @@
 import React from 'react';
 
 export default function CabinetSection() {
-    return (
-        <div>CabinetSection</div>
-    );
+  return <div>CabinetSection</div>;
 }
