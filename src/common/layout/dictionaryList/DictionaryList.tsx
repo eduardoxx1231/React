@@ -1,11 +1,12 @@
 import React from 'react';
 import { Col, ListGroup, Row } from 'react-bootstrap';
 import { IDictionaryWord } from '../../../models/IDictionaryWord';
+import { IWord } from '../../../models/IWord';
 
 export default function DictionaryList({ dicList, onClick }: 
 		{ 
 			dicList: IDictionaryWord[]; 
-			onClick: (id:number) => void;
+			onClick: (id: IWord['id']) => void;
 		}) {
     const buildList = dicList.map(( dicItem )=>{
         return (

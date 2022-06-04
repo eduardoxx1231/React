@@ -40,7 +40,7 @@ export default function VocabularySection() {
         setTranslation(searchInput);
     }
 
-    const handleDictionaryChoice = (id: number) => {
+    const handleDictionaryChoice = (id: IWord['id']) => {
         const choosed = filtredDictionaryList.find((item) => item.id === id)
         setTranslation(choosed.translations[0]);
         setIsChoosen(true);

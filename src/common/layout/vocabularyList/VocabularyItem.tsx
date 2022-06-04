@@ -11,7 +11,7 @@ const levels = [
 ];
 
 export default function VocabularyItem({ wordItem, onChangeActive }: 
-        { wordItem: IWord; onChangeActive: (id: number, active: boolean) => void}) {
+        { wordItem: IWord; onChangeActive: (id: IWord['id'], active: boolean) => void}) {
     const itemClasses = ['word-item'];
     if (!wordItem.active) itemClasses.push('disable');
     const status = wordItem.status === 'learned' 

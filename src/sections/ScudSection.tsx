@@ -3,6 +3,7 @@ import useAsyncEffect from '../hoocks/useAsyncEffect';
 import useQuizes from '../hoocks/useQuizes';
 import useStatistic from '../hoocks/useStatistic';
 import useVocabulary from '../hoocks/useVocabulary';
+import { IWord } from '../models/IWord';
 import { shuffle } from '../utils/shuffle';
 import { filterToStudy } from '../utils/wordUtils';
 
@@ -20,7 +21,7 @@ export default function ScudSection() {
     const defaultStatistic = words.reduce((result, word) => {
         result[word.id] = true;
         return result;
-    }, {} as Record<number, boolean>); 
+    }, {} as Record<IWord['id'], boolean>); 
 
     const [status, setStatus] = useState(Status.Start);
     const [pazzleWords, setPazzleWords] = useState(words);
