@@ -6,15 +6,15 @@ module.exports = {
   extends: [
     'react-app',
     'prettier',
+    'plugin:import/typescript',
     'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:import/recommended',
     'plugin:prettier/recommended',
     'plugin:jsx-a11y/recommended',
   ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
+    JSX: 'readonly'
   },
   parserOptions: {
     ecmaFeatures: {
@@ -27,5 +27,10 @@ module.exports = {
     'react',
   ],
   rules: {
+    'import/no-unresolved': [
+      2, 
+      { "caseSensitive": false }
+   ],
+   'no-unused-vars': 'off'
   },
 };

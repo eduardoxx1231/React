@@ -10,10 +10,10 @@ import {
 } from 'react-bootstrap-icons';
 
 const levels = [
-  <Reception0 color="royalblue" size={32} />,
-  <Reception1 color="royalblue" size={32} />,
-  <Reception2 color="royalblue" size={32} />,
-  <Reception3 color="royalblue" size={32} />,
+  <Reception0 key={0} color="royalblue" size={32} />,
+  <Reception1 key={1} color="royalblue" size={32} />,
+  <Reception2 key={2} color="royalblue" size={32} />,
+  <Reception3 key={3} color="royalblue" size={32} />,
 ];
 
 export default function VocabularyItem({

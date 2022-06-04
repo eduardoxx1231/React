@@ -53,6 +53,7 @@ export default function QuizListen({
   const [allowNext, setAllowNext] = useState<boolean>(false);
   const [isFirstAnswerRight, setIsFirstAnswerRight] = useState<boolean>(false);
   const [isAnswerRight, setIsAnswerRight] = useState<boolean>(true);
+  // eslint-disable-next-line no-undef
   const [voice, setVoice] = useState<SpeechSynthesisVoice>();
 
   const onEnd = () => setPlaybak(Playback.Play);
@@ -80,7 +81,7 @@ export default function QuizListen({
     // console.log('voices', voices);
     const voice = voices[93] ? voices[93] : voices[3];
     // console.log(voice);
-    if (!!voice) {
+    if (voice) {
       setHasVioce(true);
       setVoice(voice);
       setPlaybak(Playback.Play);
