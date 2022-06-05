@@ -34,7 +34,6 @@ export default function Layout() {
               <Nav.Link as={Link} to="vocabulary">
                 Vocabulary
               </Nav.Link>
-              <Nav.Link disabled>|</Nav.Link>
               <AuthWidget />
             </Nav>
           </Navbar.Collapse>
