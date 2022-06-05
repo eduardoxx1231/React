@@ -1,6 +1,7 @@
 import { IWord } from '../models/IWord';
 import { limits } from '../constants';
 import { skipedChars, maxQuizWords } from '../constants';
+import { shuffle } from './shuffle';
 
 const milisecondsOfDay = 1000 * 60 * 60 * 24;
 
@@ -19,6 +20,7 @@ export function filterToStudy(vocabulary: IWord[]): IWord[] {
     if (!w.active || w.status === 'learned') return false;
     return true;
   });
+
   const actuals = allows.filter((w) => {
     const lastSuccessful = new Date(w.lastSuccessful);
     const daysPassed = Math.abs(
@@ -37,7 +39,7 @@ export function filterToStudy(vocabulary: IWord[]): IWord[] {
         return false;
     }
   });
-  const resultWords = actuals.reduce((limitedWords, w) => {
+  const resultWords = shuffle(actuals).reduce((limitedWords, w) => {
     counters[w.successfulAttempts] += 1;
     if (counters[w.successfulAttempts] > limits[w.successfulAttempts]) {
       return limitedWords;
