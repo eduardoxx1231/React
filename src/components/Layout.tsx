@@ -40,7 +40,7 @@ export default function Layout() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container className="text-white-50 flex-grow-1 d-flex flex-column">
+      <Container className="text-white-50 flex-grow-1 d-flex flex-column p-0">
         {isLoading && 'LOADING'}
         <Outlet />
       </Container>

@@ -15,13 +15,13 @@ const QuizCard = ({
   pazzle: string;
 }) => {
   return (
-    <Row className="justify-content-center">
-      <Col className="col-4">
+    <Row className="justify-content-center m-0 p-0">
+      <div style={{ maxWidth: '400px' }} className="p-0">
         <Card bg="dark" className="p-3">
           <Card.Header>
             <Row>
               <Col>{title}</Col>
-              <Col md="auto">
+              <Col xs="auto">
                 <Button
                   variant={disabledNext ? 'outline-secondary' : 'primary'}
                   disabled={disabledNext}
@@ -39,7 +39,7 @@ const QuizCard = ({
             {children}
           </Card.Body>
         </Card>
-      </Col>
+      </div>
     </Row>
   );
 };
