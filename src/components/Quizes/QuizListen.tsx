@@ -1,6 +1,14 @@
 import React, { useState, FormEvent, useRef, useEffect } from 'react';
 import QuizCard from '../../common/layout/quizCard/QuizCard';
-import { Button, Row, Form, Card } from 'react-bootstrap';
+import {
+  Button,
+  Row,
+  Form,
+  Card,
+  FormControl,
+  InputGroup,
+} from 'react-bootstrap';
+import { ArrowRight } from 'react-bootstrap-icons';
 import useAsyncEffect from '../../hoocks/useAsyncEffect';
 import { IQuizProps } from '../../models/IQuiz';
 import { splitByWords } from '../../utils/wordUtils';
@@ -142,7 +150,7 @@ export default function QuizListen({
   return (
     <QuizCard
       title="Listen and write"
-      pazzle={pazzleWord.translation}
+      // pazzle={pazzleWord.translation}
       disabledNext={!allowNext}
       handleNextWord={handleNextWord}
     >
@@ -155,9 +163,18 @@ export default function QuizListen({
         {allowNext && pazzleWord.word}
       </Card.Title>
       <Form onSubmit={handleEnterWord} ref={wordForm}>
-        <Form.Group controlId="answer">
-          <Form.Control type="text" className={inputClasses.join(' ')} />
-        </Form.Group>
+        <InputGroup>
+          <FormControl className={inputClasses.join(' ')} id="answer" />
+          {allowNext ? (
+            <Button variant="primary" onClick={handleNextWord}>
+              <ArrowRight />
+            </Button>
+          ) : (
+            <Button variant="primary" id="give-answer" type="submit">
+              <ArrowRight />
+            </Button>
+          )}
+        </InputGroup>
       </Form>
       <Row className="mt-5 text-secondary text-center">
         <small>{speech?.voice?.name}</small>
