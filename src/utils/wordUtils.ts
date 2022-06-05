@@ -39,6 +39,7 @@ export function filterToStudy(vocabulary: IWord[]): IWord[] {
         return false;
     }
   });
+
   const resultWords = shuffle(actuals).reduce((limitedWords, w) => {
     counters[w.successfulAttempts] += 1;
     if (counters[w.successfulAttempts] > limits[w.successfulAttempts]) {
