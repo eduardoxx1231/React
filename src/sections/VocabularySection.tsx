@@ -105,7 +105,7 @@ export default function VocabularySection() {
 
   return (
     <Container className="container-sm p-2">
-      <Form className=" mb-3">
+      <Form className="m-3">
         <InputGroup className="mb-3">
           <FormControl
             type="search"

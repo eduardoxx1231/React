@@ -12,12 +12,12 @@ const QuizCard = ({
   disabledNext: boolean;
   handleNextWord: () => void;
   title: string;
-  pazzle: string;
+  pazzle?: string;
 }) => {
   return (
     <Row className="justify-content-center m-0 p-0">
-      <div style={{ maxWidth: '400px' }} className="p-0">
-        <Card bg="dark" className="p-3">
+      <div className="p-0 quiz-card-container">
+        <Card className="p-3 quiz-card">
           <Card.Header>
             <Row>
               <Col>{title}</Col>

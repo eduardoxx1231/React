@@ -25,6 +25,21 @@ html {
   pointer-events: none;
 }
 
+.quiz-card-container {
+  max-width: 400px !important;
+}
+
+.quiz-card {
+  background-color: #101316 !important;
+  // height: calc(100vh - 56px) !important;
+}
+
+@media screen and (max-width: 500px) {
+  .quiz-card {
+    height: calc(100vh - 56px) !important;
+  }
+}
+
 .form-control {
   background-color: transparent !important;
   color: aliceblue !important;
