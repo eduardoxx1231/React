@@ -36,8 +36,14 @@ html {
 
 @media screen and (max-width: 500px) {
   .quiz-card {
-    height: calc(100vh - 56px) !important;
+    height: max(calc(100vh - 56px), 400px) !important;
   }
+}
+
+.letter-item {
+  font-size: 20px !important;
+  height: 2.5em;
+  width: 2.5em;
 }
 
 .form-control {

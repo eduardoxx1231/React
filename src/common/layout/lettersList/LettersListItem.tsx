@@ -12,7 +12,7 @@ const LettersListItem = ({
   isMistake: boolean;
   isRight: boolean;
 }) => {
-  const letterClasses = ['text-light', 'm-2', 'col-2'];
+  const letterClasses = ['text-light', 'm-2', 'letter-item'];
   const [isShow, setIsShow] = useState(true);
   // const [isMistake, setIsMistake] = useState(false);
 
