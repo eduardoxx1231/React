@@ -22,18 +22,23 @@ export function filterToStudy(vocabulary: IWord[]): IWord[] {
   });
 
   const actuals = allows.filter((w) => {
-    const lastSuccessful = new Date(w.lastSuccessful);
+    const lastSuccessful = w.lastSuccessful
+      ? new Date(w.lastSuccessful)
+      : currentDate;
     const daysPassed = Math.abs(
       Math.round(
-        (currentDate.getTime() - lastSuccessful.getTime()) / milisecondsOfDay,
+        (currentDate.getTime() - lastSuccessful.getTime()) / milisecondsOfDay +
+          0.2,
       ),
     );
     switch (w.successfulAttempts) {
       case 1:
         return daysPassed >= 1;
       case 2:
-        return daysPassed >= 6;
+        return daysPassed >= 5;
       case 3:
+        return daysPassed >= 15;
+      case 4:
         return daysPassed >= 25;
       default:
         return false;
@@ -41,10 +46,10 @@ export function filterToStudy(vocabulary: IWord[]): IWord[] {
   });
 
   const resultWords = shuffle(actuals).reduce((limitedWords, w) => {
-    counters[w.successfulAttempts] += 1;
-    if (counters[w.successfulAttempts] > limits[w.successfulAttempts]) {
+    if (counters[w.successfulAttempts] >= limits[w.successfulAttempts]) {
       return limitedWords;
     }
+    counters[w.successfulAttempts] = counters[w.successfulAttempts] + 1;
     limitedWords.push(w);
     return limitedWords;
   }, []);
@@ -52,6 +57,13 @@ export function filterToStudy(vocabulary: IWord[]): IWord[] {
   const additionNewWords = allows
     .filter((w) => w.successfulAttempts === 0)
     .slice(0, maxQuizWords - resultWords.length);
+
   resultWords.push(...additionNewWords);
   return resultWords;
 }
+
+const maxFakeWords = 5;
+const maxFakeLength = 10;
+
+const random = (max: number) => Math.floor(Math.random() * max);
+const randomRange = (min: number, max: number) => min + random(max - min);

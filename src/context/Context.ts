@@ -8,7 +8,7 @@ export type AuthInFunc = (
   callback?: () => void,
 ) => Promise<void>;
 export type AuthOutFunc = (callback?: () => void) => Promise<void>;
-export type SaveStatFunc = (statistc: IWord[]) => Promise<void>;
+export type SaveStatFunc = (statistc: Partial<IWord>[]) => Promise<void>;
 export type GetVocabularyFunc = () => Promise<void>;
 export type AddWordFunc = (word: string, translation: string) => Promise<void>;
 export type SetWordActiveFunc = (
@@ -19,6 +19,7 @@ export type SetWordActiveFunc = (
 export interface StoreContextType {
   isLoading: boolean;
   isAuth: boolean;
+  isAuthChecked: boolean;
   user: IUser;
   login: AuthInFunc;
   registration: AuthInFunc;
@@ -28,6 +29,7 @@ export interface StoreContextType {
   getVocabulary: GetVocabularyFunc;
   addWord: AddWordFunc;
   setWordActive: SetWordActiveFunc;
+  setVoice: (voiceIndex: string) => void;
 }
 
 export const Context = createContext<StoreContextType>(null!);

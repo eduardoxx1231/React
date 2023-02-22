@@ -25,7 +25,7 @@ const LettersListItem = ({
     }
     // setIsMistake(true);
   };
-  // console.log(isMistake);
+
   return (
     <Button
       className={letterClasses.join(' ')}

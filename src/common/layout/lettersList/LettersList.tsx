@@ -27,7 +27,8 @@ const LettersList = ({
   return (
     <Row className="justify-content-center">
       <Col
-        className="col-10 d-flex flex-wrap justify-content-center"
+        sm={10}
+        className="d-flex flex-wrap justify-content-center"
         onClick={onClick}
       >
         {buldList}

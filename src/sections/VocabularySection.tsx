@@ -35,6 +35,7 @@ export default function VocabularySection() {
       const filtered = !str
         ? vocabulary
         : vocabulary.filter((item) => item.word.includes(str));
+
       setFiltredVocabularyList(filtered);
     },
     [vocabulary],
@@ -57,7 +58,6 @@ export default function VocabularySection() {
   const handleDictionaryChoice = (id: IWord['id']) => {
     const choosed = filtredDictionaryList.find((item) => item.id === id);
     setTranslation(choosed.translations[0]);
-    setIsChoosen(true);
   };
 
   const handleAddToggle = useCallback(() => {
@@ -66,11 +66,9 @@ export default function VocabularySection() {
 
   const handleAddButton = useCallback(() => {
     setIsChoosen(true);
-    console.log('add');
   }, [isAddMode]);
 
   const dictionarySearch = async (str: string) => {
-    console.log('dictionarySearch', str);
     const response = await DictionaryServoce.search(str);
     // TODO Add error when no data;
     setFiltredDictionaryList(response.data);
@@ -88,9 +86,8 @@ export default function VocabularySection() {
 
   useAsyncEffect(async () => {
     if (!search || !isAddMode || !isChoosen) return;
-    console.log('add2');
     setIsLoading(true);
-    await addWord(search, translation);
+    await addWord(search.toLocaleLowerCase(), translation);
     setIsLoading(false);
     setIsChoosen(false);
     setTranslation('');

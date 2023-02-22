@@ -4,8 +4,9 @@ export interface IWord {
   word: string;
   translation: string;
   status: WordStatusType;
-  lastSuccessful: Date;
+  lastSuccessful: Date | string;
   attempts: number;
   successfulAttempts: number;
   active: boolean;
+  note?: string;
 }

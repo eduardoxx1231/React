@@ -1,14 +1,13 @@
 import React from 'react';
 import { Col, ListGroup, Row } from 'react-bootstrap';
 import { IDictionaryWord } from '../../../models/IDictionaryWord';
-import { IWord } from '../../../models/IWord';
 
 export default function DictionaryList({
   dicList,
   onClick,
 }: {
   dicList: IDictionaryWord[];
-  onClick: (id: IWord['id']) => void;
+  onClick: (id: IDictionaryWord['id']) => void;
 }) {
   const buildList = dicList.map((dicItem) => {
     return (
@@ -23,6 +22,7 @@ export default function DictionaryList({
           <Col xs={6} className="fs-5">
             {dicItem.word}
           </Col>
+          {/* TODO Rework to Unfold all translations */}
           <Col xs={6}>{dicItem.translations[0]}</Col>
         </Row>
       </ListGroup.Item>

@@ -15,19 +15,10 @@ export default function LoginSection() {
   const fromPath = locationState?.from?.pathname || '/';
 
   const loginForm = useRef<HTMLFormElement>(null);
-  const [email, setEmail] = useState('ggg@ggg.com');
-  const [password, setPassword] = useState('12345678');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [allowValidation, setAllowValidation] = useState(false);
-  // const [isValidated, setIsValidated] = useState(false);
 
-  // const handleSubmit = (event: React.BaseSyntheticEvent) => {
-  //     const form = event.currentTarget;
-  //     setAllowValidation(true);
-  //     setIsValidated(form.checkValidity());
-  //     console.log('---', form.checkValidity());
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  // };
   const handleAuth = (event: React.BaseSyntheticEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -37,17 +28,13 @@ export default function LoginSection() {
 
     if (event.target.name === 'login') {
       auth.login(email, password, () => navigate(fromPath, { replace: true }));
-      console.log('-fire--login-------');
     }
     if (event.target.name === 'register') {
       auth.registration(email, password, () =>
         navigate(fromPath, { replace: true }),
       );
-      console.log('-fire--register-------');
     }
   };
-
-  const [show, setShow] = useState(true);
 
   return (
     <Container className="bg-transparent">

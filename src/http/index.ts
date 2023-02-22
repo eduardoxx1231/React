@@ -1,11 +1,9 @@
 import axios from 'axios';
 import AuthService from '../services/AuthServoce';
 
-export const API_URL = 'http://localhost:5000/api';
-
 const api = axios.create({
   withCredentials: true,
-  baseURL: API_URL,
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 api.interceptors.request.use((config) => {
@@ -17,7 +15,12 @@ api.interceptors.response.use(
   (config) => config,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && error.config && !error.config._isTry) {
+    if (
+      error.response?.status === 401 &&
+      error.config &&
+      !error.config._isTry &&
+      error.config.url !== '/refresh'
+    ) {
       originalRequest._isTry = true;
       try {
         const response = await AuthService.refresh();

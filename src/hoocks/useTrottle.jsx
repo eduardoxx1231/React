@@ -9,7 +9,6 @@ export default function useTrottle(func, time) {
   }, []);
 
   return function (...args) {
-    console.log(args);
     if (timerActive()) return;
     func(...args);
     startTimer(() => {});

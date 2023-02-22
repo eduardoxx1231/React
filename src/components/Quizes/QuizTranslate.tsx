@@ -25,12 +25,11 @@ export default function QuizTranslate({
     }
   }, [choosenWord]);
 
-  useAsyncEffect(() => {
-    // await
-    const fakeWords = DictionaryServoce.getFakeWords(pazzleWord.word).map(
-      (item) => item.word,
-    );
-    const resultList = [...fakeWords];
+  useAsyncEffect(async () => {
+    const fakeWords = await DictionaryServoce.getFakeWords(pazzleWord.word);
+    const resultList = [
+      ...fakeWords.map((item) => item.word.toLocaleLowerCase()),
+    ];
     const rightAnswerIndex = randomIndex(MAX_WORDS_VARIANTS - 1);
     resultList.splice(rightAnswerIndex, 0, pazzleWord.word);
     setPazzleList(resultList);
@@ -40,7 +39,6 @@ export default function QuizTranslate({
     const target = e.target as HTMLButtonElement;
     const choosen = target.dataset.value;
     if (choosen) {
-      console.log(choosen, pazzleWord.word);
       setChoosenWord(choosen);
       if (isAnswerRight) {
         setIsAnswerRight(pazzleWord.word === choosen);
@@ -63,11 +61,13 @@ export default function QuizTranslate({
       checked={item === choosenWord}
     />
   ));
+  const pazzle =
+    pazzleWord.translation + (pazzleWord.note ? `  [${pazzleWord.note}]` : '');
 
   return (
     <QuizCard
       title="Translate to English"
-      pazzle={pazzleWord.translation}
+      pazzle={pazzle}
       disabledNext={!allowNext}
       handleNextWord={handleNextWord}
     >

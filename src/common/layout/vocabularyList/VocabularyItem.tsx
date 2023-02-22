@@ -6,6 +6,7 @@ import {
   Reception1,
   Reception2,
   Reception3,
+  Reception4,
   CheckLg,
 } from 'react-bootstrap-icons';
 
@@ -14,6 +15,7 @@ const levels = [
   <Reception1 key={1} color="royalblue" size={32} />,
   <Reception2 key={2} color="royalblue" size={32} />,
   <Reception3 key={3} color="royalblue" size={32} />,
+  <Reception4 key={4} color="royalblue" size={32} />,
 ];
 
 export default function VocabularyItem({
@@ -39,7 +41,7 @@ export default function VocabularyItem({
   return (
     <ListGroup.Item className={itemClasses.join(' ')}>
       <Row className="align-items-center">
-        <Col xs={8}>
+        <Col xs={7}>
           <Row className="align-items-center justify-content-end">
             <Col sm={6} className="fs-5">
               {wordItem.word}
@@ -47,7 +49,7 @@ export default function VocabularyItem({
             <Col sm={6}>{wordItem.translation}</Col>
           </Row>
         </Col>
-        <Col xs={4}>
+        <Col xs={5}>
           <Row className="align-items-center justify-content-end">
             <Col xs="auto">{status}</Col>
             <Col xs="auto">

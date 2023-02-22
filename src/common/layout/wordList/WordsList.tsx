@@ -9,7 +9,7 @@ const WordsList = ({
   onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }) => {
   return (
-    <Stack direction="vertical" gap={3} onClick={onClick}>
+    <Stack direction="vertical" gap={4} onClick={onClick}>
       {children}
     </Stack>
   );

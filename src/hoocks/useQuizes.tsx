@@ -20,7 +20,7 @@ const quizes: Record<QuizNameType, QuizType> = {
 
 const useQuizes = (): QuizType[] => {
   const { user } = useContext<StoreContextType>(Context);
-  return user.settings.quizes.map((quizName) => quizes[quizName]);
+  return user.settings.allowedQuizes.map((quizName) => quizes[quizName]);
 };
 
 export default useQuizes;

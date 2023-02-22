@@ -15,7 +15,7 @@ const QuizCard = ({
   pazzle?: string;
 }) => {
   return (
-    <Row className="justify-content-center m-0 p-0">
+    <Row className="justify-content-center m-0 p-0 quiz-card-outside">
       <div className="p-0 quiz-card-container">
         <Card className="p-3 quiz-card">
           <Card.Header>

@@ -6,21 +6,15 @@ import { IUser } from '../models/IUser';
 import { IWord } from '../models/IWord';
 import { StoreContextType } from '../context/Context';
 import VocabularyServoce from '../services/VocabularyService';
-
-const u = {
-  id: 'idetrid',
-  email: 'ggg@gg@.com',
-  isActivated: true,
-  settings: {
-    quizes: ['Translate', 'ReverseTranslate', 'Listen', 'Spell'],
-  },
-};
+import { useErrorHandling } from '../hoocks/useErrorHandling';
 
 export default function Provider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<IUser>({} as IUser);
+  const [user, setUser] = useState<IUser>(null);
   const [vocabulary, setVocabulary] = useState<IWord[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [isAuthChecked, setIsAuthChecked] = useState<boolean>(false);
+  const { triggerError } = useErrorHandling();
 
   const checkAuth = async () => {
     setIsLoading(true);
@@ -28,13 +22,14 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       // TODO Add error connection
       const response = await AuthService.refresh();
       localStorage.setItem('token', response.data.accessToken);
+      setUser({ ...response.data.user });
+      await getVocabulary();
       setIsAuth(true);
-      setUser(response.data.user);
     } catch (error: any) {
-      console.log(error.response?.data?.message);
-    } finally {
-      setIsLoading(false);
+      triggerError(error);
     }
+    setIsLoading(false);
+    setIsAuthChecked(true);
   };
 
   const login = async (
@@ -44,17 +39,14 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   ) => {
     try {
       // TODO Add error connection
-      // const response = await AuthService.login(email, password);
-      // localStorage.setItem('token', response.data.accessToken);
-      setIsAuth(true);
-      console.log('set user');
-      setUser(u as IUser);
-      console.log(u);
-      // setUser(response.data.user);
+      const response = await AuthService.login(email, password);
+      localStorage.setItem('token', response.data.accessToken);
+      setUser({ ...response.data.user });
       await getVocabulary();
+      setIsAuth(true);
       callback();
     } catch (error: any) {
-      console.log(error.response?.data?.message);
+      triggerError(error.response?.data ? error.response?.data : error);
     }
   };
 
@@ -71,7 +63,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       setUser(response.data.user);
       callback();
     } catch (error: any) {
-      console.log(error.response?.data?.message);
+      triggerError(error.response?.data ? error.response?.data : error);
     }
   };
 
@@ -85,46 +77,43 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       setVocabulary([]);
       callback();
     } catch (error: any) {
-      console.log(error.response?.data?.message);
+      triggerError(error.response?.data ? error.response?.data : error);
     }
   };
 
-  useAsyncEffect(() => {
-    if (localStorage.getItem('token')) checkAuth();
+  useAsyncEffect(async () => {
+    if (localStorage.getItem('token')) await checkAuth();
   }, []);
 
-  const saveStatistic = async (words: IWord[]) => {
-    await VocabularyServoce.updateWords(words);
+  const saveStatistic = async (wordsStatistic: Partial<IWord>[]) => {
+    await VocabularyServoce.updateWords(wordsStatistic);
+  };
+  // TODO move to utils
+  const sortVocabulary = (voc: IWord[]) => {
+    const sorted = [...voc];
+    return sorted.sort((a, b) => {
+      if (a.active && b.active) return 0;
+      if ((a.active && !b.active) || b.status === 'learned') return -1;
+      return 1;
+    });
   };
 
   const getVocabulary = async () => {
     try {
-      // setVocabulary(words);
       const response = await VocabularyServoce.getVocabulary();
-      setVocabulary(response.data);
+      setVocabulary(sortVocabulary(response.data));
     } catch (error: any) {
-      console.log(error.response?.data?.message);
+      triggerError(error.response?.data ? error.response?.data : error);
     }
   };
 
   const addWord = async (word: string, translation: string) => {
     try {
-      // const response = await VocabularyServoce.addWord(word, translation);
-      const data: IWord = {
-        id: String(vocabulary.length),
-        word,
-        translation,
-        status: 'study',
-        lastSuccessful: null,
-        attempts: 0,
-        successfulAttempts: 0,
-        active: true,
-      };
-      const newVocabulary = [data, ...vocabulary];
-      // console.log(newVocabulary);
+      const response = await VocabularyServoce.addWord(word, translation);
+      const newVocabulary = [...vocabulary, response.data];
       setVocabulary(newVocabulary);
     } catch (error: any) {
-      console.log(error.response?.data?.message);
+      triggerError(error.response?.data ? error.response?.data : error);
     }
   };
 
@@ -133,19 +122,25 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       const newVocabulary = [...vocabulary];
       const wordIndex = newVocabulary.findIndex((item) => item.id === id);
       newVocabulary[wordIndex].active = active;
-      // const word = newVocabulary[wordIndex];
-      // await VocabularyServoce.updateWord({...word, active})
+      await VocabularyServoce.updateWord({ id, active });
 
-      // console.log(newVocabulary);
       setVocabulary(newVocabulary);
     } catch (error: any) {
-      console.log(error.response?.data?.message);
+      triggerError(error.response?.data ? error.response?.data : error);
     }
+  };
+
+  const setVoice = (voiceIndex: string) => {
+    if (!user) return;
+    const updateUser = { ...user };
+    updateUser.settings.voice = voiceIndex;
+    setUser(updateUser);
   };
 
   const value: StoreContextType = {
     isLoading,
     isAuth,
+    isAuthChecked,
     user,
     login,
     logout,
@@ -155,6 +150,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     getVocabulary,
     addWord,
     setWordActive,
+    setVoice,
   };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
