@@ -26,12 +26,14 @@ export default function QuizSpell({
       (char) => !skipedChars.includes(char),
     );
     setPazzleList(shuffle(resultList));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pazzleWord.word]);
 
   useEffect(() => {
     if (currentRihgtLetterIndex >= currentWordLetters.length) {
       setAllowNext(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRihgtLetterIndex]);
 
   const getNextRihgtLetterIndex = (): number => {

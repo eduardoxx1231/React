@@ -66,6 +66,7 @@ export default function VocabularySection() {
 
   const handleAddButton = useCallback(() => {
     setIsChoosen(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAddMode]);
 
   const dictionarySearch = async (str: string) => {
@@ -77,6 +78,7 @@ export default function VocabularySection() {
 
   useEffect(() => {
     filterBySearch(search);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vocabulary, search]);
 
   useAsyncEffect(async () => {

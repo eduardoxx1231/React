@@ -23,6 +23,7 @@ export default function QuizTranslate({
     if (pazzleWord.word === choosenWord) {
       setAllowNext(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [choosenWord]);
 
   useAsyncEffect(async () => {

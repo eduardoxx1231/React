@@ -3,7 +3,9 @@ import AuthService from '../services/AuthServoce';
 
 const api = axios.create({
   withCredentials: true,
-  baseURL: process.env.REACT_APP_API_URL,
+  // @TODO Add condition fot netlify only
+  baseURL: '/api',
+  // baseURL: process.env.REACT_APP_API_URL,
 });
 
 api.interceptors.request.use((config) => {

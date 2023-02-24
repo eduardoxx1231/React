@@ -61,9 +61,3 @@ export function filterToStudy(vocabulary: IWord[]): IWord[] {
   resultWords.push(...additionNewWords);
   return resultWords;
 }
-
-const maxFakeWords = 5;
-const maxFakeLength = 10;
-
-const random = (max: number) => Math.floor(Math.random() * max);
-const randomRange = (min: number, max: number) => min + random(max - min);

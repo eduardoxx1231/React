@@ -11,6 +11,7 @@ function useAsyncEffect(
       effect();
       return hasDestroy ? destroy : undefined;
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     hasDestroy ? dependencies : destroy,
   );
 }

@@ -6,6 +6,7 @@ export default function useDebounce(func: (args: any) => void, time: number) {
 
   useEffect(() => {
     return () => stopTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return function (args: any) {
