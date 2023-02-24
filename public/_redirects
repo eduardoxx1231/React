@@ -1,0 +1,3 @@
+/api/* https://cold-bush-2928.fly.dev/api/:splat 200
+/* /index.html 200
+/\* /index.html 404

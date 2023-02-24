@@ -6,6 +6,7 @@ export default function useTrottle(func, time) {
 
   useEffect(() => {
     return () => stopTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return function (...args) {

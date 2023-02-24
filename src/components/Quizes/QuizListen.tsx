@@ -97,6 +97,7 @@ export default function QuizListen({
     return () => {
       speech.onend = undefined;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePlayback = () => {
