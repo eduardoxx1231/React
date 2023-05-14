@@ -148,7 +148,7 @@ export default function QuizListen({
   return (
     <QuizCard
       title="Listen and write"
-      // pazzle={allowNext ? pazzleWord.translation : ''}
+      pazzle={allowNext ? pazzleWord.translation : ''}
       disabledNext={!allowNext}
       handleNextWord={handleNextWord}
     >
