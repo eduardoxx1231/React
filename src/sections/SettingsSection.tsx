@@ -3,7 +3,8 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import useAsyncEffect from '../hoocks/useAsyncEffect';
 import useSettings from '../hoocks/useSettings';
 
-const getVoices = (): Promise<any[]> => {
+// eslint-disable-next-line no-undef
+const getVoices = (): Promise<SpeechSynthesisVoice[]> => {
   return new Promise((resolve) => {
     window.speechSynthesis.onvoiceschanged = (_e) => {
       resolve(window.speechSynthesis.getVoices());
@@ -21,6 +22,8 @@ export default function SettingsSection() {
     const voicesTry = window.speechSynthesis.getVoices();
     const voices = voicesTry.length ? voicesTry : await getVoices();
     if (voices) {
+      const sortedVoices = [...voices];
+      sortedVoices.sort((a, b) => a.name.localeCompare(b.name));
       setVoices(voices);
     }
   }, []);
