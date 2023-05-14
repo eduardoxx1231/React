@@ -24,7 +24,7 @@ export default function SettingsSection() {
     if (voices) {
       const sortedVoices = [...voices];
       sortedVoices.sort((a, b) => a.name.localeCompare(b.name));
-      setVoices(voices);
+      setVoices(sortedVoices);
     }
   }, []);
 
