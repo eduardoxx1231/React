@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import useAsyncEffect from '../hoocks/useAsyncEffect';
 import useSettings from '../hoocks/useSettings';
+import { sortVoices } from '../utils/sortVoices';
 
 // eslint-disable-next-line no-undef
 const getVoices = (): Promise<SpeechSynthesisVoice[]> => {
@@ -22,8 +23,7 @@ export default function SettingsSection() {
     const voicesTry = window.speechSynthesis.getVoices();
     const voices = voicesTry.length ? voicesTry : await getVoices();
     if (voices) {
-      const sortedVoices = [...voices];
-      sortedVoices.sort((a, b) => a.name.localeCompare(b.name));
+      const sortedVoices = sortVoices(voices);
       setVoices(sortedVoices);
     }
   }, []);

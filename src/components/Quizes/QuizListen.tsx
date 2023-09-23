@@ -13,6 +13,7 @@ import useAsyncEffect from '../../hoocks/useAsyncEffect';
 import { IQuizProps } from '../../models/IQuiz';
 import { splitByWords } from '../../utils/wordUtils';
 import useSettings from '../../hoocks/useSettings';
+import { sortVoices } from '../../utils/sortVoices';
 
 enum Playback {
   Pending = 'Pending',
@@ -22,7 +23,8 @@ enum Playback {
 }
 
 // rework add event
-const getVoices = (): Promise<any[]> => {
+// eslint-disable-next-line no-undef
+const getVoices = (): Promise<SpeechSynthesisVoice[]> => {
   return new Promise((resolve) => {
     window.speechSynthesis.onvoiceschanged = (_e) => {
       resolve(window.speechSynthesis.getVoices());
@@ -85,7 +87,8 @@ export default function QuizListen({
   useAsyncEffect(async () => {
     const voicesTry = speechSynth.getVoices();
     const voices = voicesTry.length ? voicesTry : await getVoices();
-    const voice = voices[Number(settings.voice)];
+    const sortedVoices = sortVoices(voices);
+    const voice = sortedVoices[Number(settings.voice)];
     if (voice) {
       setHasVioce(true);
       setVoice(voice);

@@ -23,6 +23,7 @@ export default function VocabularySection() {
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [translation, setTranslation] = useState('');
+  const [note, setNote] = useState('');
   const [isChoosen, setIsChoosen] = useState(false);
   const [filtredVocabularyList, setFiltredVocabularyList] =
     useState<IWord[]>(vocabulary);
@@ -53,6 +54,11 @@ export default function VocabularySection() {
     const target = e.target as HTMLInputElement;
     const searchInput = target.value;
     setTranslation(searchInput);
+  };
+
+  const handleChangeNote = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLInputElement;
+    setNote(target.value);
   };
 
   const handleDictionaryChoice = (id: IWord['id']) => {
@@ -89,7 +95,7 @@ export default function VocabularySection() {
   useAsyncEffect(async () => {
     if (!search || !isAddMode || !isChoosen) return;
     setIsLoading(true);
-    await addWord(search.toLocaleLowerCase(), translation);
+    await addWord(search.toLocaleLowerCase(), translation, note);
     setIsLoading(false);
     setIsChoosen(false);
     setTranslation('');
@@ -135,6 +141,13 @@ export default function VocabularySection() {
                 aria-describedby="basic-addon2"
                 value={translation}
                 onChange={handleChangeTranslation}
+              />
+              <FormControl
+                placeholder="Addition note"
+                aria-label="Addition note"
+                aria-describedby="basic-addon2"
+                value={note}
+                onChange={handleChangeNote}
               />
               <Button
                 variant="primary"

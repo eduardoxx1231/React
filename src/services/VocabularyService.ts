@@ -10,8 +10,9 @@ export default class VocabularyService {
   static async addWord(
     word: string,
     translation: string,
+    note?: string,
   ): Promise<AxiosResponse<IWord>> {
-    return api.post<IWord>('/vocabulary', { word, translation });
+    return api.post<IWord>('/vocabulary', { word, translation, note });
   }
 
   static async deleteWord(id: string): Promise<AxiosResponse<IWord>> {
