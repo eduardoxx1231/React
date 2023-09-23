@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useAsyncEffect from '../hoocks/useAsyncEffect';
 import AuthService from '../services/AuthServoce';
-import { Context } from '../context/Context';
+import { AddWordFunc, Context } from '../context/Context';
 import { IUser } from '../models/IUser';
 import { IWord } from '../models/IWord';
 import { StoreContextType } from '../context/Context';
@@ -90,7 +90,8 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   };
   // TODO move to utils
   const sortVocabulary = (voc: IWord[]) => {
-    const sorted = [...voc];
+    // @TODO Add list of learned
+    const sorted = voc.filter((w) => w.status !== 'learned');
     return sorted.sort((a, b) => {
       if (a.active && b.active) return 0;
       if ((a.active && !b.active) || b.status === 'learned') return -1;
@@ -107,9 +108,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const addWord = async (word: string, translation: string) => {
+  const addWord: AddWordFunc = async (word, translation, note) => {
     try {
-      const response = await VocabularyServoce.addWord(word, translation);
+      const response = await VocabularyServoce.addWord(word, translation, note);
       const newVocabulary = [...vocabulary, response.data];
       setVocabulary(newVocabulary);
     } catch (error: any) {

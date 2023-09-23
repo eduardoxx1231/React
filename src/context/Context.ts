@@ -10,7 +10,11 @@ export type AuthInFunc = (
 export type AuthOutFunc = (callback?: () => void) => Promise<void>;
 export type SaveStatFunc = (statistc: Partial<IWord>[]) => Promise<void>;
 export type GetVocabularyFunc = () => Promise<void>;
-export type AddWordFunc = (word: string, translation: string) => Promise<void>;
+export type AddWordFunc = (
+  word: string,
+  translation: string,
+  note?: string,
+) => Promise<void>;
 export type SetWordActiveFunc = (
   word: IWord['id'],
   active: boolean,
