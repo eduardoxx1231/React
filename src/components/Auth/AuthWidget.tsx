@@ -4,18 +4,19 @@ import { NavDropdown, Nav } from 'react-bootstrap';
 
 import useAuth from '../../hoocks/useAuth';
 
-export default function AuthWidget() {
+export default function AuthWidget({ onSelect }: { onSelect: () => void }) {
   const auth = useAuth();
   const navigate = useNavigate();
   if (!auth.isAuth) {
     return (
-      <Nav.Link as={Link} to="/login">
+      <Nav.Link as={Link} to="/login" onClick={onSelect}>
         Login
       </Nav.Link>
     );
   }
 
   const handleLogout = () => {
+    onSelect();
     auth.logout(() => navigate('/'));
   };
 
@@ -26,10 +27,10 @@ export default function AuthWidget() {
       menuVariant="dark"
       align="end"
     >
-      <NavDropdown.Item as={Link} to="/cabinet">
+      <NavDropdown.Item as={Link} to="/cabinet" onClick={onSelect}>
         Cabinet
       </NavDropdown.Item>
-      <NavDropdown.Item as={Link} to="/settings">
+      <NavDropdown.Item as={Link} to="/settings" onClick={onSelect}>
         Settings
       </NavDropdown.Item>
       <NavDropdown.Divider />
