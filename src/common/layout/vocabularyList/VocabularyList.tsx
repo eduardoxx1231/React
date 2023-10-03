@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Row } from 'react-bootstrap';
 import { IWord } from '../../../models/IWord';
 import VocabularyItem from './VocabularyItem';
 
@@ -19,5 +19,9 @@ export default function VocabularyList({
       />
     );
   });
-  return <ListGroup>{buildList}</ListGroup>;
+  return buildList.length ? (
+    <ListGroup>{buildList}</ListGroup>
+  ) : (
+    <Row className="justify-content-center">no words</Row>
+  );
 }

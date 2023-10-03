@@ -16,6 +16,7 @@ import { IDictionaryWord } from '../models/IDictionaryWord';
 import useAsyncEffect from '../hoocks/useAsyncEffect';
 import DictionaryServoce from '../services/DictionaryServoce';
 import DictionaryList from '../common/layout/dictionaryList/DictionaryList';
+import Spinner from '../common/Spinner';
 
 export default function VocabularySection() {
   const { vocabulary, addWord, setWordActive } = useVocabulary();
@@ -76,9 +77,11 @@ export default function VocabularySection() {
   }, [isAddMode]);
 
   const dictionarySearch = async (str: string) => {
+    setIsLoading(true);
     const response = await DictionaryServoce.search(str);
     // TODO Add error when no data;
     setFiltredDictionaryList(response.data);
+    setIsLoading(false);
   };
   const debouncedDictionarySearch = useDebounce(dictionarySearch, 400);
 
@@ -106,6 +109,20 @@ export default function VocabularySection() {
 
   const onChangeActive = (id: IWord['id'], active: boolean) => {
     setWordActive(id, active);
+  };
+
+  const renderList = () => {
+    return isAddMode ? (
+      <DictionaryList
+        dicList={filtredDictionaryList}
+        onClick={handleDictionaryChoice}
+      />
+    ) : (
+      <VocabularyList
+        wordsList={filtredVocabularyList}
+        onChangeActive={onChangeActive}
+      />
+    );
   };
 
   return (
@@ -161,18 +178,7 @@ export default function VocabularySection() {
           </div>
         </Collapse>
       </Form>
-
-      {isAddMode ? (
-        <DictionaryList
-          dicList={filtredDictionaryList}
-          onClick={handleDictionaryChoice}
-        />
-      ) : (
-        <VocabularyList
-          wordsList={filtredVocabularyList}
-          onChangeActive={onChangeActive}
-        />
-      )}
+      {isLoading ? <Spinner /> : renderList()}
     </Container>
   );
 }

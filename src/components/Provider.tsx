@@ -37,6 +37,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     password: string,
     callback = () => {},
   ) => {
+    setIsLoading(true);
     try {
       // TODO Add error connection
       const response = await AuthService.login(email, password);
@@ -48,6 +49,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     } catch (error: any) {
       triggerError(error.response?.data ? error.response?.data : error);
     }
+    setIsLoading(false);
   };
 
   const registration = async (

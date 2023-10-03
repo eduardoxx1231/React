@@ -1,6 +1,12 @@
 // @import "bootstrap/scss/variables";
+input.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: gray;
+  opacity: 1; /* Firefox */
+}
+
 @import '~bootstrap/scss/bootstrap';
 $input-bg: transparent;
+
 body,
 html {
   height: 100%;

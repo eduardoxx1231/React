@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import AuthWidget from './Auth/AuthWidget';
 import { Context, StoreContextType } from '../context/Context';
+import Spinner from '../common/Spinner';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
 export default function Layout() {
@@ -54,8 +55,7 @@ export default function Layout() {
         </Container>
       </Navbar>
       <Container className="text-white-50 d-flex flex-column flex-grow-1 p-0">
-        {isLoading && 'LOADING'}
-        <Outlet />
+        {isLoading ? <Spinner /> : <Outlet />}
       </Container>
     </>
   );
