@@ -28,5 +28,9 @@ export default function DictionaryList({
       </ListGroup.Item>
     );
   });
-  return <ListGroup>{buildList}</ListGroup>;
+  return buildList.length ? (
+    <ListGroup>{buildList}</ListGroup>
+  ) : (
+    <Row className="justify-content-center">no words</Row>
+  );
 }

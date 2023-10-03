@@ -1,0 +1,131 @@
+@use 'sass:math';
+$particle-count: 25;
+$layer-offset: 4;
+$particle-offset: 5;
+$max-particle-delay: 300;
+$num-of-half-waves: 3;
+
+.spinner-container {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  perspective: 800px;
+  perspective-origin: center;
+}
+
+.storm {
+  padding: 0;
+  list-style: none;
+  position: relative;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  opacity: 1;
+  justify-content: center;
+  align-items: center;
+  transform: rotateX(65deg);
+  transform-style: preserve-3d;
+  transition: 0.6s ease transform;
+  animation: rotate-from-flat 3s ease-in;
+
+  li {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+.particle {
+  width: 100%;
+  height: 100%;
+  /* background: conic-gradient(from 4deg, transparent 0%, white 1%, transparent 30%, transparent 50%, white 51%, transparent 80%); */
+  background: conic-gradient(
+    from 4deg,
+    transparent 20%,
+    white 50%,
+    transparent 51%,
+    transparent 60%,
+    white 100%
+  );
+  -webkit-mask: radial-gradient(transparent 55%, black 69%, transparent 80%);
+  /*   -webkit-mask-size: 50% 100%; */
+  -webkit-mask-repeat: no-repeat;
+  animation: particleRotate 1s linear infinite, fadeIn 4s ease-in;
+}
+
+@keyframes rotate-from-flat {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(70deg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes particleRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// delay betweent particles rotation
+@for $i from 1 through $particle-count {
+  .storm-layer:nth-child(#{$i}) div {
+    animation-delay: -$max-particle-delay * math.random() + 0ms;
+  }
+}
+
+// initail state of layers
+@for $i from 1 through $particle-count {
+  .storm-layer:nth-child(#{$i}) {
+    transform: translateZ(#{100 - $i * $layer-offset}px)
+      translateX(
+        math.sin($num-of-half-waves * math.$pi/$particle-count * $i) *
+          $particle-offset +
+          px
+      )
+      scale(1 - $i/$particle-count);
+    animation: particle-offest-#{$i} 3s ease-in;
+  }
+}
+
+// Animation storm waves, height and size of layer
+@for $i from 1 through $particle-count {
+  @keyframes particle-offest-#{$i} {
+    0% {
+      transform: translateZ(0) translateX(0) scale(1);
+    }
+    80% {
+      transform: translateZ(#{100 - $i * $layer-offset}px) translateX(0)
+        scale(1 - $i/$particle-count);
+    }
+    100% {
+      transform: translateZ(#{100 - $i * $layer-offset}px)
+        translateX(
+          math.sin($num-of-half-waves * math.$pi/$particle-count * $i) *
+            $particle-offset + px
+        )
+        scale(1 - $i/$particle-count);
+    }
+  }
+}

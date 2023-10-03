@@ -6,6 +6,7 @@ import { IQuizProps } from '../../models/IQuiz';
 import { randomIndex } from '../../utils/random';
 import WordsList from '../../common/layout/wordList/WordsList';
 import WordsListItem from '../../common/layout/wordList/WordsListItem';
+import Spinner from '../../common/Spinner';
 import DictionaryServoce from '../../services/DictionaryServoce';
 
 import { MAX_WORDS_VARIANTS } from '../../constants';
@@ -72,7 +73,11 @@ export default function QuizTranslate({
       disabledNext={!allowNext}
       handleNextWord={handleNextWord}
     >
-      <WordsList onClick={handleClick}>{buldList}</WordsList>
+      {buldList.length ? (
+        <WordsList onClick={handleClick}>{buldList}</WordsList>
+      ) : (
+        <Spinner />
+      )}
     </QuizCard>
   );
 }
