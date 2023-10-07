@@ -5,9 +5,9 @@ interface R extends Partial<StoreContextType> {
   settings: ISettings;
 }
 const useSettings = (): R => {
-  const { user, setVoice } = useContext<StoreContextType>(Context);
+  const { user, saveSettings } = useContext<StoreContextType>(Context);
 
-  return { settings: user.settings, setVoice };
+  return { settings: user.settings, saveSettings };
 };
 
 export default useSettings;

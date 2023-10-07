@@ -45,7 +45,7 @@ export default function VocabularySection() {
 
   const handleChangeSearch = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
-    const searchInput = target.value;
+    const searchInput = target.value.toLocaleLowerCase();
     const pattern = /^([^0-9]*)$/g;
     if (!searchInput.match(pattern)) return;
     setSearch(searchInput);
@@ -102,6 +102,7 @@ export default function VocabularySection() {
     setIsLoading(false);
     setIsChoosen(false);
     setTranslation('');
+    setNote('');
     setSearch('');
     setIsAddMode(false);
     setFiltredDictionaryList([]);

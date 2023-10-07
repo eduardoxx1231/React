@@ -15,7 +15,7 @@ const getVoices = (): Promise<SpeechSynthesisVoice[]> => {
 };
 
 export default function SettingsSection() {
-  const { settings, setVoice } = useSettings();
+  const { settings, saveSettings } = useSettings();
   const [voices, setVoices] = useState([]);
   const [currentVoice, setCurrentVoice] = useState(settings.voice);
 
@@ -33,8 +33,11 @@ export default function SettingsSection() {
   };
 
   const handleSave = () => {
-    setVoice(currentVoice);
+    const newSettings = { ...settings };
+    newSettings.voice = currentVoice;
+    saveSettings(newSettings);
   };
+
   return (
     <Row className="justify-content-center">
       <Col xs={10} sm={8} md={6}>

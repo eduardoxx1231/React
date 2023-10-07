@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import { IUser } from '../models/IUser';
 import { IWord } from '../models/IWord';
+import { ISettings } from '../models/ISettings';
 
 export type AuthInFunc = (
   email: string,
@@ -33,7 +34,7 @@ export interface StoreContextType {
   getVocabulary: GetVocabularyFunc;
   addWord: AddWordFunc;
   setWordActive: SetWordActiveFunc;
-  setVoice: (voiceIndex: string) => void;
+  saveSettings: (settings: ISettings) => void;
 }
 
 export const Context = createContext<StoreContextType>(null!);
