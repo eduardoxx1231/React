@@ -57,7 +57,8 @@ export default function ScudSection() {
   useAsyncEffect(async () => {
     if (!isFinish) return;
 
-    const updatedWords = words.map((word) => {
+    const updatedWords = words.map((incomWord) => {
+      const word = { ...incomWord };
       word.attempts += 1;
       if (statistic[word.id]) {
         word.successfulAttempts += 1;
@@ -67,14 +68,7 @@ export default function ScudSection() {
         word.status = 'learned';
         word.active = false;
       }
-      return {
-        id: word.id,
-        attempts: word.attempts + 1,
-        ...(statistic[word.id] && { lastSuccessful: new Date() }),
-        ...(statistic[word.id] && {
-          successfulAttempts: word.successfulAttempts + 1,
-        }),
-      };
+      return word;
     });
     await saveStatistic(updatedWords);
     setIsFinish(false);

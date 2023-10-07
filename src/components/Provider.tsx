@@ -3,10 +3,12 @@ import useAsyncEffect from '../hoocks/useAsyncEffect';
 import AuthService from '../services/AuthServoce';
 import { AddWordFunc, Context } from '../context/Context';
 import { IUser } from '../models/IUser';
+import { ISettings } from '../models/ISettings';
 import { IWord } from '../models/IWord';
 import { StoreContextType } from '../context/Context';
 import VocabularyServoce from '../services/VocabularyService';
 import { useErrorHandling } from '../hoocks/useErrorHandling';
+import UserService from '../services/UserServoce';
 
 export default function Provider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<IUser>(null);
@@ -88,7 +90,10 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const saveStatistic = async (wordsStatistic: Partial<IWord>[]) => {
+    setIsLoading(true);
     await VocabularyServoce.updateWords(wordsStatistic);
+    await getVocabulary();
+    setIsLoading(false);
   };
   // TODO move to utils
   const sortVocabulary = (voc: IWord[]) => {
@@ -133,11 +138,19 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const setVoice = (voiceIndex: string) => {
+  const saveSettings = async (settings: ISettings) => {
     if (!user) return;
+    const updateSettings = { ...user.settings, ...settings };
     const updateUser = { ...user };
-    updateUser.settings.voice = voiceIndex;
+    updateUser.settings = updateSettings;
     setUser(updateUser);
+    setIsLoading(true);
+    try {
+      await UserService.updateSettings(user.id, updateSettings);
+    } catch (error: any) {
+      triggerError(error.response?.data ? error.response?.data : error);
+    }
+    setIsLoading(false);
   };
 
   const value: StoreContextType = {
@@ -153,7 +166,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     getVocabulary,
     addWord,
     setWordActive,
-    setVoice,
+    saveSettings,
   };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
