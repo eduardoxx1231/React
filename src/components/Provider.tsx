@@ -90,10 +90,12 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const saveStatistic = async (wordsStatistic: Partial<IWord>[]) => {
-    setIsLoading(true);
-    await VocabularyServoce.updateWords(wordsStatistic);
-    await getVocabulary();
-    setIsLoading(false);
+    try {
+      await VocabularyServoce.updateWords(wordsStatistic);
+      await getVocabulary();
+    } catch (error: any) {
+      triggerError(error.response?.data ? error.response?.data : error);
+    }
   };
   // TODO move to utils
   const sortVocabulary = (voc: IWord[]) => {

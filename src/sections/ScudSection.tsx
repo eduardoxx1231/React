@@ -4,6 +4,7 @@ import useAsyncEffect from '../hoocks/useAsyncEffect';
 import useQuizes from '../hoocks/useQuizes';
 import useStatistic from '../hoocks/useStatistic';
 import useVocabulary from '../hoocks/useVocabulary';
+import Spinner from '../common/Spinner';
 import { IWord } from '../models/IWord';
 import { shuffle } from '../utils/shuffle';
 import { filterToStudy } from '../utils/wordUtils';
@@ -28,7 +29,7 @@ export default function ScudSection() {
   const [pazzleWords, setPazzleWords] = useState(words);
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [isFinish, setIsFinish] = useState(false);
+  const [isStatisticSaved, setIsStatisticSaved] = useState(false);
   const [statistic, setStatistic] = useState(defaultStatistic);
 
   const handleNext = (result: boolean) => {
@@ -42,7 +43,7 @@ export default function ScudSection() {
       currentQuizIndex === quizes.length - 1 &&
       currentWordIndex === words.length - 1
     ) {
-      setIsFinish(true);
+      setStatus(Status.End);
       return;
     }
     if (currentWordIndex === words.length - 1) {
@@ -55,8 +56,7 @@ export default function ScudSection() {
   };
 
   useAsyncEffect(async () => {
-    if (!isFinish) return;
-
+    if (!isStatisticSaved && status !== Status.End) return;
     const updatedWords = words.map((incomWord) => {
       const word = { ...incomWord };
       word.attempts += 1;
@@ -71,9 +71,8 @@ export default function ScudSection() {
       return word;
     });
     await saveStatistic(updatedWords);
-    setIsFinish(false);
-    setStatus(Status.End);
-  }, [isFinish]);
+    setIsStatisticSaved(true);
+  }, [isStatisticSaved, status]);
 
   if (!words.length) return <h3>No words to learn</h3>;
 
@@ -89,7 +88,11 @@ export default function ScudSection() {
       );
     // return <StartCard onClick={()=>{}/>
     case Status.End:
-      return <EndCard statistic={statistic} pazzleWords={pazzleWords} />;
+      return isStatisticSaved ? (
+        <EndCard statistic={statistic} pazzleWords={pazzleWords} />
+      ) : (
+        <Spinner />
+      );
     default:
       return (
         <CurrentQuiz
