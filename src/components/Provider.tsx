@@ -140,19 +140,21 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const saveSettings = async (settings: ISettings) => {
+  const saveSettings = async (settings: ISettings): Promise<number> => {
     if (!user) return;
     const updateSettings = { ...user.settings, ...settings };
     const updateUser = { ...user };
     updateUser.settings = updateSettings;
     setUser(updateUser);
-    setIsLoading(true);
     try {
-      await UserService.updateSettings(user.id, updateSettings);
+      setIsLoading(true);
+      const res = await UserService.updateSettings(user.id, updateSettings);
+      setIsLoading(false);
+      return res.status;
     } catch (error: any) {
       triggerError(error.response?.data ? error.response?.data : error);
+      return 500;
     }
-    setIsLoading(false);
   };
 
   const value: StoreContextType = {

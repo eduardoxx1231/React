@@ -1,6 +1,6 @@
 # WordStormFront
 
-WordStorm front-end part
+WordStorm front-end part.
 Application for learning foreign words using various quizzes
 
 ## Stucture
