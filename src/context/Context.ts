@@ -34,7 +34,7 @@ export interface StoreContextType {
   getVocabulary: GetVocabularyFunc;
   addWord: AddWordFunc;
   setWordActive: SetWordActiveFunc;
-  saveSettings: (settings: ISettings) => void;
+  saveSettings: (settings: ISettings) => Promise<number>;
 }
 
 export const Context = createContext<StoreContextType>(null!);
