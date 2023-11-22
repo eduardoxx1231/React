@@ -20,7 +20,7 @@ export default function VocabularyList({
     );
   });
   return buildList.length ? (
-    <ListGroup>{buildList}</ListGroup>
+    <ListGroup className="border-dark">{buildList}</ListGroup>
   ) : (
     <Row className="justify-content-center">no words</Row>
   );

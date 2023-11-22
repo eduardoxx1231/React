@@ -100,7 +100,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   // TODO move to utils
   const sortVocabulary = (voc: IWord[]) => {
     // @TODO Add list of learned
-    const sorted = voc.filter((w) => w.status !== 'learned');
+    const sorted = [...voc];
     return sorted.sort((a, b) => {
       if (a.active && b.active) return 0;
       if ((a.active && !b.active) || b.status === 'learned') return -1;

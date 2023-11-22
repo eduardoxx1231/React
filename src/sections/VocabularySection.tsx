@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Container,
   Form,
@@ -26,21 +26,24 @@ export default function VocabularySection() {
   const [translation, setTranslation] = useState('');
   const [note, setNote] = useState('');
   const [isChoosen, setIsChoosen] = useState(false);
-  const [filtredVocabularyList, setFiltredVocabularyList] =
-    useState<IWord[]>(vocabulary);
-  const [filtredDictionaryList, setFiltredDictionaryList] = useState<
+  const studyingVocabulary = useMemo(() => {
+    return vocabulary.filter((w) => w.status !== 'learned');
+  }, [vocabulary]);
+  const [filteredVocabularyList, setFilteredVocabularyList] =
+    useState<IWord[]>(studyingVocabulary);
+  const [filteredDictionaryList, setFilteredDictionaryList] = useState<
     IDictionaryWord[]
   >([]);
 
   const filterBySearch = useCallback(
     (str: string) => {
       const filtered = !str
-        ? vocabulary
-        : vocabulary.filter((item) => item.word.includes(str));
+        ? studyingVocabulary
+        : studyingVocabulary.filter((item) => item.word.includes(str));
 
-      setFiltredVocabularyList(filtered);
+      setFilteredVocabularyList(filtered);
     },
-    [vocabulary],
+    [studyingVocabulary],
   );
 
   const handleChangeSearch = (e: React.SyntheticEvent) => {
@@ -63,7 +66,7 @@ export default function VocabularySection() {
   };
 
   const handleDictionaryChoice = (id: IWord['id']) => {
-    const choosed = filtredDictionaryList.find((item) => item.id === id);
+    const choosed = filteredDictionaryList.find((item) => item.id === id);
     setTranslation(choosed.translations[0]);
   };
 
@@ -80,32 +83,32 @@ export default function VocabularySection() {
     setIsLoading(true);
     const response = await DictionaryServoce.search(str);
     // TODO Add error when no data;
-    setFiltredDictionaryList(response.data);
+    setFilteredDictionaryList(response.data);
     setIsLoading(false);
   };
   const debouncedDictionarySearch = useDebounce(dictionarySearch, 400);
 
   useEffect(() => {
-    filterBySearch(search);
+    filterBySearch(search.trim());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vocabulary, search]);
+  }, [studyingVocabulary, search]);
 
   useAsyncEffect(async () => {
     if (!search || !isAddMode) return;
-    debouncedDictionarySearch(search);
+    debouncedDictionarySearch(search.trim());
   }, [search, isAddMode]);
 
   useAsyncEffect(async () => {
     if (!search || !isAddMode || !isChoosen) return;
     setIsLoading(true);
-    await addWord(search.toLocaleLowerCase(), translation, note);
+    await addWord(search.trim().toLocaleLowerCase(), translation, note);
     setIsLoading(false);
     setIsChoosen(false);
     setTranslation('');
     setNote('');
     setSearch('');
     setIsAddMode(false);
-    setFiltredDictionaryList([]);
+    setFilteredDictionaryList([]);
   }, [search, isAddMode, isChoosen]);
 
   const onChangeActive = (id: IWord['id'], active: boolean) => {
@@ -115,12 +118,12 @@ export default function VocabularySection() {
   const renderList = () => {
     return isAddMode ? (
       <DictionaryList
-        dicList={filtredDictionaryList}
+        dicList={filteredDictionaryList}
         onClick={handleDictionaryChoice}
       />
     ) : (
       <VocabularyList
-        wordsList={filtredVocabularyList}
+        wordsList={filteredVocabularyList}
         onChangeActive={onChangeActive}
       />
     );

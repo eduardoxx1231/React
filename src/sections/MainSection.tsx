@@ -8,6 +8,10 @@ export default function MainSection() {
   return (
     <Col className="d-flex flex-column align-items-center justify-content-center">
       <h1>WordStorm</h1>
+      <p className="mb-3">
+        Application for learnig foreign words by quizes Translation, Listeting
+        and Spell
+      </p>
       <Button onClick={handleStart}>start</Button>
     </Col>
   );
